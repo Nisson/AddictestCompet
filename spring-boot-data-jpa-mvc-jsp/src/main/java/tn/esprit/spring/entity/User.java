@@ -1,11 +1,13 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User implements Serializable{
@@ -15,8 +17,14 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id; 
-	private String fName; 
-	private String lName;
+	private String username; 
+	private String email;
+	private String password;
+	private String nom;
+	private String prenom;
+	
+	@OneToMany(mappedBy = "user")
+	private List<University> univ;
 	
 	
 	public Long getId() {
@@ -25,18 +33,41 @@ public class User implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getfName() {
-		return fName;
+	
+	
+	public String getUsername() {
+		return username;
 	}
-	public void setfName(String fName) {
-		this.fName = fName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getlName() {
-		return lName;
+	public String getEmail() {
+		return email;
 	}
-	public void setlName(String lName) {
-		this.lName = lName;
-	} 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	public String getPrenom() {
+		return prenom;
+	}
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+	
+	
+	
 	
 	
 

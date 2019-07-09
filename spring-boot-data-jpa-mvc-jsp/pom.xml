@@ -33,7 +33,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
+	
 		<!-- ajouter : JSP Support -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
