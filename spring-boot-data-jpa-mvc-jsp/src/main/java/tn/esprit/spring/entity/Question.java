@@ -11,8 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class Question implements Serializable {
 	
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	
 	private Long id; 
 	
 	private String content;
@@ -22,6 +21,10 @@ public class Question implements Serializable {
 	private List<Long> major_group;
 	
 	
+	public Question() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Question(Long id, String content, Boolean answer1, Long affected_major) {
 		super();
 		this.id = id;
