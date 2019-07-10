@@ -22,7 +22,8 @@ public class Major implements Serializable {
 	private Long id; 
 	private String title;
 	
-	
+	@ManyToMany(mappedBy="majors")
+	private List<University> universities;
 	
 	
 	public Long getId() {
@@ -36,6 +37,10 @@ public class Major implements Serializable {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	@Override
+	public String toString() {
+		return "Major [id=" + id + ", title=" + title + "]";
 	}
 	
 
