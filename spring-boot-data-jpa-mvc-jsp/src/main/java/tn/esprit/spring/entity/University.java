@@ -22,7 +22,7 @@ public class University implements Serializable {
 	private String location;
 	private String title;
 	private String description;
-	private Float score;
+	private String score;
 	@Temporal(TemporalType.DATE)
 	private Date deadline;
 
@@ -64,11 +64,11 @@ public class University implements Serializable {
 		this.description = description;
 	}
 
-	public Float getScore() {
+	public String getScore() {
 		return score;
 	}
 
-	public void setScore(Float score) {
+	public void setScore(String score) {
 		this.score = score;
 	}
 
