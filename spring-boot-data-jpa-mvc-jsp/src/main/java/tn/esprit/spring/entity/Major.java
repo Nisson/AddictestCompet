@@ -42,6 +42,12 @@ public class Major implements Serializable {
 	public String toString() {
 		return "Major [id=" + id + ", title=" + title + "]";
 	}
+	public List<University> getUniversities() {
+		return universities;
+	}
+	public void setUniversities(List<University> universities) {
+		this.universities = universities;
+	}
 	
 
 }

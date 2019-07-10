@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entity.University;
+import tn.esprit.spring.repository.MajorRepository;
 import tn.esprit.spring.repository.UniversityRepository;
 
 @Controller
@@ -18,8 +19,9 @@ import tn.esprit.spring.repository.UniversityRepository;
 public class UniversityController {
 
 	@Autowired
-	UniversityRepository univRep;
-	
+	public static UniversityRepository univRep;
+	@Autowired
+	public static MajorRepository majorRep;
 	@PostMapping(value ="/createuni")
 	public University CreateUniversity(@Valid @RequestBody University uni)
 	{

@@ -4,15 +4,26 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import tn.esprit.spring.control.UniversityController;
 import tn.esprit.spring.entity.Major;
+import tn.esprit.spring.entity.University;
+import tn.esprit.spring.service.UniversityService;
+
 
 public class WebScraper {
+
+
+
+
 
 	public static void main(String[] args) {
 		
@@ -35,6 +46,7 @@ public class WebScraper {
 					HtmlAnchor itemUrl = ((HtmlAnchor) htmlItem.getFirstByXPath(".//a[@class='rankings-card__link']"));
 					Major major = new Major();
 					major.setTitle(itemAnchor.asText());
+					
 					System.out.println(itemUrl.getHrefAttribute());
 					
 					getUniversityByMajor(itemUrl.getHrefAttribute());
@@ -53,7 +65,7 @@ public class WebScraper {
 
 	}
 	 static void getUniversityByMajor(String url) {
-		
+		 
 	    
 		String baseUrl = url ;
 		WebClient client = new WebClient();
@@ -68,17 +80,42 @@ public class WebScraper {
 				System.out.println("No items found !");
 			}else{
 				HtmlElement itemMajor = ((HtmlElement) items.get(0).getFirstByXPath(".//div[@class='search-result-badge']"));
-				System.out.println("Ici "+majorNale(itemMajor.asText()));
+				
+				University university= new University();
+				Major major = new Major();
+				UniversityController.majorRep.save(major);
+				major.setTitle(majorNale(itemMajor.asText()));
+				
+				//save
+				
+				if(university!=null)
+				{
+					major.getUniversities().add(university);
+				}else 
+				{	//save university
+					major.getUniversities().add(university);
+				}
+				
 				
 				for(HtmlElement htmlItem : items){
-					HtmlElement itemAnchor = ((HtmlElement) htmlItem.getFirstByXPath(".//h2[@class='search-result__title']"));
+					
+					HtmlElement itemTitle = ((HtmlElement) htmlItem.getFirstByXPath(".//h2[@class='search-result__title']"));
 					HtmlAnchor itemUrl = ((HtmlAnchor) htmlItem.getFirstByXPath(".//a[@class='search-result__link']"));
 					System.out.println(itemUrl.getHrefAttribute());
+					
+					if(university!=null)
+					{
+						university.setTitle(itemTitle.asText());
+						major.getUniversities().add(university);
+					}else 
+					{	//save university
+						major.getUniversities().add(university);
+					}
 					//Major major = new Major();
 					//major.setTitle(itemAnchor.asText());
 					//System.out.println(major);
 					
-					System.out.println(itemAnchor.asText());
+					System.out.println(itemTitle.asText());
 				
 					
 					ObjectMapper mapper = new ObjectMapper();

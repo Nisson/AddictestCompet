@@ -18,4 +18,8 @@ public class UniversityService {
 		
 		return univRep.save(uni);
 	}
+	public University findByUniversityByTitle(String title)
+	{
+		return univRep.findUniversityByTitle(title);
+	}
 }
