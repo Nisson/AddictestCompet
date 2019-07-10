@@ -43,6 +43,7 @@ public class MajorController {
 	
 	static List<Question> questions= new ArrayList();
 	static List<Long> ok= new ArrayList();
+	
 	@PostMapping(value ="/createmajor")
 	public Major CreateMajor(@Valid @RequestBody Major maj)
 	{
@@ -306,6 +307,21 @@ public void questionReponse()
 	
 }
 
+@PostMapping("/start")
+public ResponseEntity<Question> startQuestion()
+{Question q = new Question((long)1,"test",true,(long)1);
+questions.add(q);
+q.setId((long)2);
+questions.add(q);
+	ok = new ArrayList();
+	Random rand = new Random();
+	q=questions.get(rand.nextInt(questions.size()));
+	
+	questions.remove(q);
+	return new ResponseEntity<Question>(q,HttpStatus.OK);
+	}
+
+
 @PostMapping("/push")
 public ResponseEntity<Question> generateQuestion(@RequestBody Question q1)
 {
@@ -315,13 +331,29 @@ public ResponseEntity<Question> generateQuestion(@RequestBody Question q1)
 			questions.remove(q1);
 	}else ok.add(q1.getAffected_major());
 	
-	Question q = new Question();
-Random rand = new Random();
-q=questions.get(rand.nextInt(questions.size()));
-questions.remove(q);
+		Question q = new Question();
+		if(ok.size()==5)
+		{
+			q.setId((long) 0);
+		}else {
+			Random rand = new Random();
+			q=questions.get(rand.nextInt(questions.size()));
+			questions.remove(q);
+		}
+	
 	return new ResponseEntity<Question>(q,HttpStatus.OK);
 	}
- 
+@PostMapping("/viewAnswer")
+public ResponseEntity<List<Major>> answer()
+{List<Major> list = new ArrayList();
+	for(Long i:ok) {
+	
+	Major m = majRep.getOne(i);
+	list.add(m);
+	
+}
+	return new ResponseEntity<List<Major>>(list,HttpStatus.OK);
+	}
 
 }
 
