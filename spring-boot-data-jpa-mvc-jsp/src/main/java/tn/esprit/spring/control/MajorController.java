@@ -2,10 +2,13 @@ package tn.esprit.spring.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import tn.esprit.spring.entity.Major;
+import tn.esprit.spring.entity.Question;
 import tn.esprit.spring.entity.University;
 import tn.esprit.spring.repository.MajorRepository;
 import tn.esprit.spring.repository.UniversityRepository;
@@ -37,8 +41,8 @@ public class MajorController {
 	@Autowired
 	UniversityRepository univRep;
 	
-	
-
+	static List<Question> questions= new ArrayList();
+	static List<Long> ok= new ArrayList();
 	@PostMapping(value ="/createmajor")
 	public Major CreateMajor(@Valid @RequestBody Major maj)
 	{
@@ -301,6 +305,24 @@ public void questionReponse()
 	
 	
 }
+
+@PostMapping("/push")
+public ResponseEntity<Question> generateQuestion(@RequestBody Question q1)
+{
+	if(!q1.getAnswer1())
+	{
+		for(Long i:q1.getMajor_group())
+			questions.remove(q1);
+	}else ok.add(q1.getAffected_major());
+	
+	Question q = new Question();
+Random rand = new Random();
+q=questions.get(rand.nextInt(questions.size()));
+questions.remove(q);
+	return new ResponseEntity<Question>(q,HttpStatus.OK);
+	}
+ 
+
 }
 
 
