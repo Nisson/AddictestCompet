@@ -2,6 +2,7 @@ package blog.article1;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,43 +12,36 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import tn.esprit.spring.entity.Major;
+import tn.esprit.spring.entity.University;
 
 public class WebScraper2 {
 
 	public static void main(String[] args) {
 		
 	    
-		String baseUrl = "https://www.niche.com/colleges/search/best-colleges-for-international-relations/" ;
+		
 		WebClient client = new WebClient();
 		client.getOptions().setCssEnabled(false);
 		client.getOptions().setJavaScriptEnabled(false);
 		try {
-			String searchUrl = baseUrl ;
+			String searchUrl = "https://www.niche.com/colleges/northeastern-university/" ;
 			HtmlPage page = client.getPage(searchUrl);
 			
-			List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//div[@class='card']") ;
+			List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//section[@class='block--two-two']") ;
 			if(items.isEmpty()){
 				System.out.println("No items found !");
 			}else{
-	System.out.println(items);
-	HtmlElement itemMajor = ((HtmlElement) items.get(0).getFirstByXPath(".//div[@class='search-result-badge']"));
-	System.out.println(itemMajor.asText());
-				for(HtmlElement htmlItem : items){
-					HtmlElement itemAnchor = ((HtmlElement) htmlItem.getFirstByXPath(".//h2[@class='search-result__title']"));
-					HtmlAnchor itemUrl = ((HtmlAnchor) htmlItem.getFirstByXPath(".//a[@class='search-result__link']"));
-					
-					//Major major = new Major();
-					//major.setTitle(itemAnchor.asText());
-					//System.out.println(major);
-					
-					System.out.println(itemAnchor.asText());
+				System.out.println("coucou");
+				
+				
 				
 					
-					ObjectMapper mapper = new ObjectMapper();
-					// jsonString = mapper.writeValueAsString(major) ;
+					HtmlElement itemTitle  = ((HtmlElement) items.get(0).getFirstByXPath(".//div[@class='profile__bucket--3']"))
+							.getFirstByXPath(".//div[@class='scalar__value']");
+					System.out.println(itemTitle.asText());
+				
 					
-					//System.out.println(jsonString);
-				}
+				
 			}
 		} catch(Exception e){
 			e.printStackTrace();

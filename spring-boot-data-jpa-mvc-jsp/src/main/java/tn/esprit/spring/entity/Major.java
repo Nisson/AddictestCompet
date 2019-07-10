@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Major implements Serializable {
 	private Long id; 
 	private String title;
 	
-	@ManyToMany(mappedBy="majors")
+	@ManyToMany(mappedBy="majors",fetch = FetchType.EAGER)
 	private List<University> universities;
 	
 	
@@ -38,15 +39,16 @@ public class Major implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	@Override
-	public String toString() {
-		return "Major [id=" + id + ", title=" + title + "]";
-	}
+	
 	public List<University> getUniversities() {
 		return universities;
 	}
 	public void setUniversities(List<University> universities) {
 		this.universities = universities;
+	}
+	@Override
+	public String toString() {
+		return "Major [id=" + id + ", title=" + title + ", universities=" + universities + "]";
 	}
 	
 

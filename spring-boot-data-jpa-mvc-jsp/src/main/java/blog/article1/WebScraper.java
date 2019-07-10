@@ -2,6 +2,7 @@ package blog.article1;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,17 +84,17 @@ public class WebScraper {
 				
 				University university= new University();
 				Major major = new Major();
-				UniversityController.majorRep.save(major);
+				major.setUniversities(new ArrayList<>());
 				major.setTitle(majorNale(itemMajor.asText()));
 				
 				//save
 				
 				if(university!=null)
 				{
-					major.getUniversities().add(university);
+					//major.getUniversities().add(university);
 				}else 
 				{	//save university
-					major.getUniversities().add(university);
+					//major.getUniversities().add(university);
 				}
 				
 				
@@ -102,7 +103,7 @@ public class WebScraper {
 					HtmlElement itemTitle = ((HtmlElement) htmlItem.getFirstByXPath(".//h2[@class='search-result__title']"));
 					HtmlAnchor itemUrl = ((HtmlAnchor) htmlItem.getFirstByXPath(".//a[@class='search-result__link']"));
 					System.out.println(itemUrl.getHrefAttribute());
-					
+					UniversityController.majorRep.save(major);
 					if(university!=null)
 					{
 						university.setTitle(itemTitle.asText());

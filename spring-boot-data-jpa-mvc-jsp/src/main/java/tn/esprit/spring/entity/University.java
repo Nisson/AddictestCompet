@@ -1,10 +1,12 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,14 +25,14 @@ public class University implements Serializable {
 	private String title;
 	private String description;
 	private String score;
-	@Temporal(TemporalType.DATE)
-	private Date deadline;
+	
+	private String deadline;
 
 	@ManyToOne
 	private User user;
 
-	@ManyToMany
-	private List<Major> majors;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Major> majors = new ArrayList<Major>();
 
 	public Long getId() {
 		return id;
@@ -72,12 +74,53 @@ public class University implements Serializable {
 		this.score = score;
 	}
 
-	public Date getDeadline() {
+	public String getDeadline() {
 		return deadline;
 	}
 
-	public void setDeadline(Date deadline) {
+	public void setDeadline(String deadline) {
 		this.deadline = deadline;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Major> getMajors() {
+		return majors;
+	}
+
+	public void setMajors(List<Major> majors) {
+		this.majors = majors;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		University other = (University) obj;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 
 }
